@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="css/css.css"> 
+    <style>
+      html { background: #8d00c1; }
+      #news { height: 200px; margin-top: 0px; overflow: hidden; }
+      #news ul { margin: 0; padding: 0; background: #fff; }
+      #news li { list-style: none; margin: 0; padding: 7px 0; font-size: 12px; }
+      #news li span { color: #ff0030; }
+      #luck_draw { height: 258px; width: 258px; position: absolute; background: url(images/jq.png) no-repeat; background-size: 100%; left: 50%; margin-left: -129px; top: 170px; }
+      #circle_center { height: 50px; width: 50px; background: url(images/yuan.png) no-repeat; background-size: 100%; position: absolute; left: 50%; margin-left: -25px; top: 50%; margin-top: -25px; z-index: 5; text-align: center; color: #fff; line-height: 50px; }
+      #pointer { height: 30px; width: 250px; top: 50%; margin-top: -15px; position: absolute; transform-origin: 50% 50%; left: 50%; margin-left: -125px; }
+      #pointer_here { position: absolute; height: 30px; width: 55px; background: url(images/zhizhen.png) no-repeat 0% 50%; left: 50px; z-index: 2; background-size: auto 15px; }
+      @keyframes run {  0% {
+          transform:rotateZ(0deg);
+        }
+        100% {
+          transform:rotateZ(860deg);
+        }
+      }
+      #inner_circle { height: 0px; width: 0px; border: 150px solid red; border-color: purple red yellow orange; position: absolute; z-index: 100; border-radius: 150px; z-index: -1; }
+      .animated { -webkit-animation-duration: 1s; animation-duration: 1s; -webkit-animation-fill-mode: both; animation-fill-mode: both; }
+      @-webkit-keyframes pulse {  0% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+        50% {
+          -webkit-transform: scale3d(1.05, 1.05, 1.05);
+          transform: scale3d(1.05, 1.05, 1.05);
+        }
+        100% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+      }
+      @keyframes pulse {  0% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+        50% {
+          -webkit-transform: scale3d(1.05, 1.05, 1.05);
+          transform: scale3d(1.05, 1.05, 1.05);
+        }
+        100% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+      }
+      .pulse { -webkit-animation-name: pulse; animation-name: pulse; animation-iteration-count: infinite; -webkit-animation-iteration-count: infinite; -webkit-animation-duration: 0.4s; animation-duration: 0.4s; }
+      @-webkit-keyframes tada {  0% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+        10%, 20% {
+          -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+          transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+        }
+        30%, 50%, 70%, 90% {
+          -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+          transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+        }
+        40%, 60%, 80% {
+          -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+          transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+        }
+        100% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+      }
+      @keyframes tada {  0% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+        10%, 20% {
+          -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+          transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+        }
+        30%, 50%, 70%, 90% {
+          -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+          transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+        }
+        40%, 60%, 80% {
+          -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+          transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+        }
+        100% {
+          -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+        }
+      }
+      .tada { -webkit-animation-name: tada; animation-name: tada; }
+      
+      #id0{width: 81px;position: absolute;left: 90px;top: 126px;transform: rotate(180deg);}
+    </style>
+    <title>积分抽奖</title>
+  </head>
+  
+  <body>
+    
+    <div id="luck">
+      <img class="top" src="images/cj1.jpg">
+      <div class="luck_info">
+        剩余抽奖次数  <span>30</span> 次  账户剩余积分  <span>100000</span>  分
+      </div>
+      
+      
+      
+      <div class="number">
+        <div id="peoper">
+          <div id="luck_draw">
+            
+            <!--<img id="id0" src="images/0.png">
+            <img id="id1" style="width:40px; height:40px; position:absolute; left:110px; top:210px;" src="upload/j1.jpg">
+            <img id="id2" style="width:40px; height:40px; position:absolute; left:110px; top:210px;" src="upload/j1.jpg">
+            <img id="id3" style="width:40px; height:40px; position:absolute; left:110px; top:210px;" src="upload/j1.jpg">
+            <img id="id4" style="width:40px; height:40px; position:absolute; left:110px; top:210px;" src="upload/j1.jpg">
+            <img id="id5" style="width:40px; height:40px; position:absolute; left:110px; top:210px;" src="upload/j1.jpg">
+            <img id="id6" style="width:40px; height:40px; position:absolute; left:110px; top:210px;" src="upload/j1.jpg">
+            <img id="id7" style="width:40px; height:40px; position:absolute; left:110px; top:210px;" src="upload/j1.jpg">
+            <img id="id8" style="width:40px; height:40px; position:absolute; left:60px; top:180px;" src="upload/2.jpg">
+            <img id="id9" style="width:40px; height:40px; position:absolute; left:110px; top:210px;" src="upload/j1.jpg">-->
+            
+            <div id="pointer"><div id="pointer_here"></div></div>
+            <div id="circle_center" class="animated pulse">Go</div>
+            
+          </div>
+        </div>  
+      </div>
+      
+      
+      <img class="top" src="images/cj2.jpg">
+      
+      <div class="luck_list">
+        
+        <div class="insid_list">
+          <img src="images/list_top.png">
+          <div>
+            <div style="padding:10px; background:#fff; width:91%; margin:10px auto;">
+              <div id="news">
+                <div id="new_h">
+                  <ul>
+                    
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥1100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥1200</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥1100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥1200</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥1100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥100</span></li>
+                    <li>0815 19:26:30  恭喜 su** 抽中<span>投资礼金 ¥1200</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    
+    
+    
+    <div id="home_nav" class="container-fluid">
+      <div class="row">
+        <div class="col-xs-3"><a class="nav1" href="#"><span>首页</span></a></div>
+        <div class="col-xs-3"><a class="nav2" href="http://qq.com"><span>理财</span></a></div>
+        <div class="col-xs-3"><a class="nav3" href="#"><span>账户</span></a></div>
+        <div class="col-xs-3"><a class="nav4 hover" href="#"><span>更多</span></a></div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+  </body>
+  
+  <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+  <script src="js/velocity.min.js"></script>
+  <script type="text/javascript">
+    
+$.Velocity.hook($('#pointer'), "rotateZ","90deg"); //默认指针指向第3个奖品位置
+
+
+
+function click_me(){  
+  $('#circle_center').click(function(){
+    
+    var n=4;  //索引从0开始  需要第几个奖项 设置这里
+    var mun=360*7;   //转第7+1个圈  
+    var munend=((360/10)/2)+36*n;  //第n个奖品的角度获取
+    var inmun= mun+munend+'deg';  //总共转的角度
+    
+    
+    $(this).unbind('click').removeClass('animated pulse');  //防止用户多次重复点击
+    
+    $('#pointer').velocity({
+      rotateZ:inmun
+    },{
+      duration:3400,
+      easing:'easeInOutQuart',
+      complete:function(){     
+        //中奖后回调代码写这里
+        $.Velocity.hook($('#pointer'), "rotateZ",parseFloat($.Velocity.hook($('#pointer'), "rotateZ"))-mun+'deg'); //重新设置获取奖品的角度18~360范围内
+        $('#id'+n).addClass('animated tada');
+        setTimeout(function(){
+          $('#id'+n).removeClass('animated tada');
+          $('#circle_center').addClass('animated pulse');
+          click_me();
+        },1100);
+        
+        // alert('中了第：'+(n+1)+'个奖品');
+      }
+    });
+    return false;
+    
+  });
+} 
+click_me();
+
+
+
+
+var time=30000;
+var flag=1;
+var ul_height=$('#new_h').height()-$('#news').height();
+var v=time/$('#new_h ul:first').height(); 
+if(ul_height>0){
+  
+  $('#new_h ul').clone().appendTo($('#new_h'));
+}
+
+
+$('#news').click(function(){
+  if(flag){
+    $('#new_h').stop();
+    flag=0;
+  }else{
+    run(v*($('#new_h ul:first').height()-(-(parseInt($('#new_h').css('marginTop')))))); 
+    flag=1 
+  }
+})
+
+
+
+function run(time){
+  if(ul_height>0){ //内容过长的时候才滚动，否则不滚动
+    
+    $('#new_h').animate({marginTop:'-'+$('#new_h ul:first').height()},time,'linear',function(){
+      
+      
+      var wait = function(dtd){
+        var tasks = function(){
+          $('#new_h').css('marginTop','0px');
+          dtd.resolve(); // 改变Deferred对象的执行状态
+        };
+        tasks();
+        return dtd.promise();
+      };
+      
+      $.Deferred(wait)
+        .done(function(){ run(v*($('#new_h ul:first').height()-(-(parseInt($('#new_h').css('marginTop')))))); })
+      
+      
+    });
+  }else{
+    $('#new_h').stop();
+  }
+  
+}
+
+run(time);
+
+
+
+
+</script>
+
+
+</html>
